@@ -65,10 +65,10 @@ class Snake:
 
 class Apple:
     def __init__(self,parent_screen,x,y):
-        self.screen = parent_screen
+        self.screen = parent_screen 
         self.x_a = x
         self.y_a = y
-    
+
     def apple_block(self):
         pygame.draw.circle(self.screen,apple_color,(self.x_a+20 ,self.y_a+20),20)
         # pygame.display.flip()
@@ -77,9 +77,6 @@ class Apple:
         self.x_a = random.randint(1,24)*size
         self.y_a = random.randint(1,19)*size 
     
-    def big_apple_block(self):
-        pygame.draw.circle(self.screen,apple_color,(self.x_a+40 ,self.y_a+40),40)
-
 class Game:
     def __init__(self):
         pygame.init()
@@ -97,7 +94,6 @@ class Game:
         self.x_a = random.randint(1,24)*size
         self.y_a = random.randint(1,19)*size 
         self.apple = Apple(self.screen, self.x_a, self.y_a)
-        # self.big_apple = Apple(self.screen, self.x_b, self.y_b)
     
     #########################################################################
     def render_background(self):
@@ -140,8 +136,9 @@ class Game:
             return x,y     
     
     def display_score(self):
+        self.score = self.mc_snake.length*10 - 30  # 30 => inital_snake_length*10
         font = pygame.font.SysFont('arial',22)
-        score = font.render(f"Score: {self.mc_snake.length*10}",True,(200,200,200))
+        score = font.render(f"Score: {self.score}",True,(200,200,200))
         self.screen.blit(score,(850,10))
 
     def play(self):
@@ -163,8 +160,7 @@ class Game:
         
         #collision with itself
         for i in range(3,self.mc_snake.length):
-            if self.is_collision(self.mc_snake.x[0],self.mc_snake.y[0]+20,self.mc_snake.x[i]+20,self.mc_snake.y[i]):
-                # print(self.is_collision(self.mc_snake.x[0],self.mc_snake.y[0],self.mc_snake.x[i],self.mc_snake.y[i]))
+            if self.is_collision(self.mc_snake.x[0],self.mc_snake.y[0],self.mc_snake.x[i],self.mc_snake.y[i]):
                 self.play_sound("fire_sound")
                 raise "Exception" 
         
@@ -175,7 +171,7 @@ class Game:
         self.render_background()
         self.screen.fill(bg_color)
         font = pygame.font.SysFont("arial",30)
-        line1 = font.render(f"Game is over! Your score is {self.mc_snake.length}",True,(255,255,255))
+        line1 = font.render(f"Game is over! Your score is {self.score}",True,(255,255,255))
         self.screen.blit(line1,(280,300))
         line2 = font.render("To play again press Enter. To exit press Escape!",True,(255,255,255))
         self.screen.blit(line2,(200,350))
@@ -190,7 +186,7 @@ class Game:
     def run(self):
         running = True
         pause = False
-        direction = "y_axis"        #issue: sometimes does not reset on game restart
+        direction = "y_axis"        #issue: sometimes does not reset on game restart 
 
         self.mc_snake = Snake(self.screen,3)
         
@@ -203,6 +199,7 @@ class Game:
                 self.display_gameover()
                 pause = True
                 self.reset()
+                direction = "y_axis"        #issue solved ig
 
             for event in pygame.event.get():
                 if event.type == KEYDOWN:

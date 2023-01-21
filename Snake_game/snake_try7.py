@@ -160,7 +160,7 @@ class Game:
         self.apple.apple_block()
         self.display_score()
         # self.big_apple_appear()
-        self.big_apple.big_apple_block()
+        # self.big_apple.big_apple_block()
         pygame.display.flip()
 
         time.sleep(self.mc_snake.snake_speed)
@@ -174,11 +174,11 @@ class Game:
             self.apple.move()
          
          #collision with big apple
-        if self.is_collision(self.mc_snake.x[0],self.mc_snake.y[0],self.apple.x_b,self.apple.y_b):
-            print("big collision!")
-            self.play_sound("apple_munch")
-            self.mc_snake.increase_length()
-            self.big_apple.move()   
+        # if self.is_collision(self.mc_snake.x[0],self.mc_snake.y[0],self.apple.x_b,self.apple.y_b):
+        #     print("big collision!")
+        #     self.play_sound("apple_munch")
+        #     self.mc_snake.increase_length()
+        #     self.big_apple.move()   
         
         #collision with itself
         for i in range(3,self.mc_snake.length):
