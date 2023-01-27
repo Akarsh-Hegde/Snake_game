@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 import time
 import random
+from setup import *
 
 bg_color = (31, 64, 35)
 snake_color = (72, 71, 82)
@@ -140,12 +141,19 @@ class Game:
         font = pygame.font.SysFont('arial',22)
         score = font.render(f"Score: {self.score}",True,(200,200,200))
         self.screen.blit(score,(850,10))
+    
+    def display_highscore(self):
+        self.highscore = self.fetch()
+        font = pygame.font.SysFont('arial',22)
+        score = font.render(f"Highscore: {self.highscore}",True,(200,200,200))
+        self.screen.blit(score,(850,30))
 
     def play(self):
         self.render_background()
         self.mc_snake.moving()
         self.apple.apple_block()
         self.display_score()
+        self.display_highscore()
         pygame.display.flip()
 
         time.sleep(self.mc_snake.snake_speed)
@@ -189,7 +197,7 @@ class Game:
         direction = "y_axis"        #issue: sometimes does not reset on game restart 
 
         self.mc_snake = Snake(self.screen,3)
-        
+        self.player_a = DBplayer()
         while running: 
             try:
                 if not pause:

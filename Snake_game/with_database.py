@@ -22,7 +22,7 @@ class DBplayer:
         #use database
         self.cur.execute(f'use {db_name}')
         #create table
-        query = f'create table if not exists {table_name} (userName varchar(50) not null, highScore int)'
+        query = f'create table if not exists {table_name} (user_id int not null auto_increment, userName varchar(50) not null, highScore int,PRIMARY KEY (user_id))'
         self.cur.execute(query)
         print(f'Database {db_name} created, Table {table_name} created')
     
@@ -47,7 +47,7 @@ class DBplayer:
         min_score = self.cur.fetchone()
         if min_score[0] < score:
             print(min_score[0],score)
-            query = f"update {table_name} set userName = {username}, highScore = {score} where highScore =(select MIN(highScore) from {table_name})"
+            query = f"update {table_name} set userName = '{username}', highScore = '{score}' where highScore =(select MIN(highScore) from {table_name})"
             self.cur.execute(query)
 
         query = f"select * from {table_name}"
